@@ -15,11 +15,11 @@
         id, hot_words, type, hot_date, created_time
     </sql>
 
-    <select id="queryByHotDate" resultMap="BaseResultMap" parameterType="java.lang.String">
+    <select id="queryByHotDate" resultMap="BaseResultMap" parameterType="String">
         select
         <include refid="Base_Column_List"/>
         from ap_hot_words
-        where hot_date = #{hotDate,jdbcType=VARCHAR}
+        where hot_date = #{hotDate}
     </select>
 
 </mapper>

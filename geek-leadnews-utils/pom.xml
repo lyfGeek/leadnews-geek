@@ -25,10 +25,10 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
         </dependency>
-        <!--<dependency>-->
-        <!--<groupId>io.jsonwebtoken</groupId>-->
-        <!--<artifactId>jjwt</artifactId>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+        </dependency>
         <!-- 匹配度工具包。-->
         <dependency>
             <groupId>com.hankcs</groupId>

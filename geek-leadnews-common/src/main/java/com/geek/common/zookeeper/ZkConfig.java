@@ -10,12 +10,12 @@ import org.springframework.context.annotation.PropertySource;
 @Setter
 @Getter
 @Configuration
-@ConfigurationProperties(prefix = "zk")
-@PropertySource("classpath:zookeeper.properties")
+@ConfigurationProperties(prefix = "zk")// 配置文件前缀。
+@PropertySource("classpath:zookeeper.properties")// 加载配置文件。
 public class ZkConfig {
 
-    String host;
-    String sequencePath;
+    private String host;
+    private String sequencePath;
 
     @Bean
     public ZookeeperClient zookeeperClient() {

@@ -2,7 +2,6 @@ package com.geek.login.controller.v2;
 
 import com.geek.admin.apis.ILoginControllerApi;
 import com.geek.login.service.IApUserLoginService;
-import com.geek.model.admin.pojos.AdUser;
 import com.geek.model.common.dtos.ResponseResult;
 import com.geek.model.user.pojos.ApUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +23,4 @@ public class LoginV2Controller implements ILoginControllerApi {
         return apUserLoginService.loginAuthV2(user);
     }
 
-    @Override
-    public ResponseResult login(AdUser user) {
-        return null;
-    }
 }

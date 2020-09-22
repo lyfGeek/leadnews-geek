@@ -6,6 +6,19 @@
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/geek-leadnews-behavior/pom.xml" />
+        <option value="$PROJECT_DIR$/geek-leadnews-admin/pom.xml" />
+        <option value="$PROJECT_DIR$/geek-leadnews-apis/pom.xml" />
+        <option value="$PROJECT_DIR$/geek-leadnews-article/pom.xml" />
+        <option value="$PROJECT_DIR$/geek-leadnews-common/pom.xml" />
+        <option value="$PROJECT_DIR$/geek-leadnews-crawler/pom.xml" />
+        <option value="$PROJECT_DIR$/geek-leadnews-images/pom.xml" />
+        <option value="$PROJECT_DIR$/geek-leadnews-login/pom.xml" />
+        <option value="$PROJECT_DIR$/geek-leadnews-media/pom.xml" />
+        <option value="$PROJECT_DIR$/geek-leadnews-migration/pom.xml" />
+        <option value="$PROJECT_DIR$/geek-leadnews-model/pom.xml" />
+        <option value="$PROJECT_DIR$/geek-leadnews-user/pom.xml" />
+        <option value="$PROJECT_DIR$/geek-leadnews-utils/pom.xml" />
+        <option value="$PROJECT_DIR$/service-mycat/pom.xml" />
       </list>
     </option>
   </component>

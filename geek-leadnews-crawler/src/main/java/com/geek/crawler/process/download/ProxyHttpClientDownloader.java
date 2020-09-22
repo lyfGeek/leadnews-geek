@@ -58,6 +58,7 @@ import java.util.Map;
 public class ProxyHttpClientDownloader extends AbstractDownloader implements IProcessFlow {
 
     private final Map<String, CloseableHttpClient> httpClients = new HashMap<String, CloseableHttpClient>();
+
     @Autowired
     private CookieHelper cookieHelper;
     @Autowired
@@ -66,7 +67,9 @@ public class ProxyHttpClientDownloader extends AbstractDownloader implements IPr
     private CrawlerProxyProvider crawlerProxyProvider;
     @Autowired
     private SeleniumClient seleniumClient;
+
     private Logger logger = LoggerFactory.getLogger(getClass());
+
     private HttpClientGenerator httpClientGenerator = new HttpClientGenerator();
 
     private HttpUriRequestConverter httpUriRequestConverter = new HttpUriRequestConverter();
@@ -105,15 +108,15 @@ public class ProxyHttpClientDownloader extends AbstractDownloader implements IPr
     /**
      * webmagic 下载页面调用的方法入口。
      *
-     * @param request 请求的request
+     * @param request 请求的 request。
      * @param task    任务
      * @return
      */
     @Override
     public Page download(Request request, Task task) {
-        String handelType = crawlerHelper.getHandelType(request);
+        String handleType = crawlerHelper.getHandleType(request);
         long currentTime = System.currentTimeMillis();
-        log.info("开始下载页面数据，url：{}，handelType：{}", request.getUrl(), handelType);
+        log.info("开始下载页面数据，url：{}，handleType：{}", request.getUrl(), handleType);
         if (task == null || task.getSite() == null) {
             throw new NullPointerException("task or site can not be null");
         }
@@ -124,7 +127,7 @@ public class ProxyHttpClientDownloader extends AbstractDownloader implements IPr
         Proxy proxy = proxyProvider != null ? proxyProvider.getProxy(task) : null;
         // 将 Proxy 转换为我们自己的 CrawlerProxy。
         CrawlerProxy crawlerProxy = proxy == null ? null : new CrawlerProxy(proxy.getHost(), proxy.getPort());
-        // 添加Cookie。
+        // 添加 Cookie。
         addCookie(site, request.getUrl(), crawlerProxy);
 
         CloseableHttpClient httpClient = getHttpClient(site);
@@ -134,9 +137,10 @@ public class ProxyHttpClientDownloader extends AbstractDownloader implements IPr
             httpResponse = httpClient.execute(requestContext.getHttpUriRequest(), requestContext.getHttpClientContext());
 
             page = handleResponse(request, request.getCharset() != null ? request.getCharset() : task.getSite().getCharset(), httpResponse, task);
-            // 验证 httpClient 返回的数据是否是正常格式。
 
+            // 验证 httpClient 返回的数据是否是正常格式。
             boolean downloadStatus = checkDownloadStatus(page, crawlerProxy);
+
             // 下载失败。
             if (!downloadStatus) {
                 page = seleniumDownload(page);
@@ -146,12 +150,11 @@ public class ProxyHttpClientDownloader extends AbstractDownloader implements IPr
             if (downloadStatus) {
                 page.setStatusCode(200);
                 onSuccess(request);
-                log.info("下载数据成功，url：{}，handelType：{}，耗时：{}", request.getUrl(), handelType, System.currentTimeMillis() - currentTime);
+                log.info("下载数据成功，url：{}，handleType：{}，耗时：{}", request.getUrl(), handleType, System.currentTimeMillis() - currentTime);
             } else {
                 onError(request);
-                log.error("下载文档失败，url：{}，handelType：{}，proxy：{}，状态码：{}", page.getUrl().toString(), handelType, proxy, page.getStatusCode());
+                log.error("下载文档失败，url：{}，handleType：{}，proxy：{}，状态码：{}", page.getUrl().toString(), handleType, proxy, page.getStatusCode());
             }
-
             return page;
         } catch (IOException e) {
             logger.warn("download page {} error", request.getUrl(), e);
@@ -228,7 +231,7 @@ public class ProxyHttpClientDownloader extends AbstractDownloader implements IPr
      * @param processFlowData
      */
     @Override
-    public void handel(ProcessFlowData processFlowData) {
+    public void handle(ProcessFlowData processFlowData) {
         Proxy[] proxies = getProxyArray(crawlerProxyProvider.getCrawlerProxyList());
         if (null != proxies && proxies.length > 0) {
             setProxyProvider(SimpleProxyProvider.from(proxies));
@@ -236,7 +239,7 @@ public class ProxyHttpClientDownloader extends AbstractDownloader implements IPr
     }
 
     /**
-     * selenium+chrome headless 方式下载。
+     * selenium + chrome headless 方式下载。
      *
      * @param page
      */
@@ -315,7 +318,6 @@ public class ProxyHttpClientDownloader extends AbstractDownloader implements IPr
         }
         return proxyArray;
     }
-
 
     @Override
     public CrawlerEnum.ComponentType getComponentType() {

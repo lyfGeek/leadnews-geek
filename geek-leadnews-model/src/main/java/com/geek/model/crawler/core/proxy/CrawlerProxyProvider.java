@@ -1,6 +1,5 @@
 package com.geek.model.crawler.core.proxy;
 
-
 import com.geek.model.crawler.core.callback.IProxyProviderCallBack;
 
 import java.util.List;
@@ -13,6 +12,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * 代理 IP 的提供者。
  */
 public class CrawlerProxyProvider {
+
     /**
      * 读写锁特点。
      * 读读共享。
@@ -92,7 +92,7 @@ public class CrawlerProxyProvider {
     public void unavailable(CrawlerProxy proxy) {
         if (isUsedProxyIp) {
             writeLock.lock();
-            crawlerProxyList.remove(proxy);
+            crawlerProxyList.remove(proxy);// 从 ip 池中移除。
             writeLock.unlock();
 //            proxyProviderCallBack.unvailable(proxy);
             if (crawlerProxyList.size() <= proxyIpUpdateThreshold) {
@@ -124,4 +124,5 @@ public class CrawlerProxyProvider {
     public void setProxyProviderCallBack(IProxyProviderCallBack proxyProviderCallBack) {
         this.proxyProviderCallBack = proxyProviderCallBack;
     }
+
 }

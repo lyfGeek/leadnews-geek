@@ -69,7 +69,7 @@ public class HtmlParser {
         Document document = Jsoup.parse(content);
         Elements elements = document.select(cssExpression);
         List<HtmlLabel> htmlLabelList = parseElements(elements);
-        log.info("解析文章内容完成，耗时：{}", System.currentTimeMillis() - currentTime);
+        log.info("解析文章内容完成。耗时：{}", System.currentTimeMillis() - currentTime);
         return htmlLabelList;
     }
 

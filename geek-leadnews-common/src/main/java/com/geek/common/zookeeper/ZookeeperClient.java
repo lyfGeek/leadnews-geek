@@ -26,21 +26,33 @@ public class ZookeeperClient {
     private final int SESSION_TIMEOUT = 30 * 1000;
     // 连接超时时间。
     private final int CONNECTION_TIMEOUT = 3 * 1000;
-    Logger logger = LoggerFactory.getLogger(ZookeeperClient.class);
-    CuratorFramework client = null;
+
     private String host;
     private String sequencePath;
-    // 序列化集合。
+
+    private Logger logger = LoggerFactory.getLogger(ZookeeperClient.class);
+    private CuratorFramework client = null;
+    // 序列化 map。线程安全 map。
     private Map<String, ZkSequence> zkSequenceMap = Maps.newConcurrentMap();
 
+    /**
+     * 初始化参数。
+     *
+     * @param host
+     * @param sequencePath
+     */
     public ZookeeperClient(String host, String sequencePath) {
         this.host = host;
         this.sequencePath = sequencePath;
     }
 
-    @PostConstruct
+    /**
+     * 初始化客户端。
+     */
+    @PostConstruct// 初始化类之前运行。
     public void init() {
-        this.client = CuratorFrameworkFactory.builder().connectString(this.getHost())
+        this.client = CuratorFrameworkFactory.builder()
+                .connectString(this.getHost())
                 .connectionTimeoutMs(CONNECTION_TIMEOUT)
                 .sessionTimeoutMs(SESSION_TIMEOUT)
                 .retryPolicy(new ExponentialBackoffRetry(SLEEP_TIME_MS, MAX_RETRIES)).build();
@@ -65,7 +77,7 @@ public class ZookeeperClient {
                 return seq.sequence();
             }
         } catch (Exception e) {
-            logger.error("获取[{}]Sequence错误：{}", name, e);
+            logger.error("获取 [{}] Sequence 失败：{}", name, e);
             e.printStackTrace();
         }
         return null;

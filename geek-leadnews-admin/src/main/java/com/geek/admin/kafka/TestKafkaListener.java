@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TestKafkaListener implements IKafkaListener {
+
     @Override
     public String topic() {
         return "topic.test";
@@ -21,4 +22,5 @@ public class TestKafkaListener implements IKafkaListener {
     public void onMessage(Object o) {
 
     }
+
 }

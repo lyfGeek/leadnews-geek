@@ -1,75 +1,84 @@
-//package com.geek.article.service.impl;
-//
-//import com.geek.article.service.IAppArticleInfoService;
-//import com.geek.model.article.dtos.ArticleInfoDto;
-//import com.geek.model.article.pojos.ApArticleConfig;
-//import com.geek.model.article.pojos.ApArticleContent;
-//import com.geek.model.article.pojos.ApAuthor;
-//import com.geek.model.article.pojos.ApCollection;
-//import com.geek.model.behavior.pojos.ApBehaviorEntry;
-//import com.geek.model.behavior.pojos.ApLikesBehavior;
-//import com.geek.model.behavior.pojos.ApUnlikesBehavior;
-//import com.geek.model.common.dtos.ResponseResult;
-//import com.geek.model.common.enums.AppHttpCodeEnum;
-//import com.geek.model.mappers.app.*;
-//import com.geek.model.user.pojos.ApUser;
-//import com.geek.model.user.pojos.ApUserFollow;
-//import com.geek.utils.common.BurstUtils;
-//import com.geek.utils.common.ZipUtils;
-//import com.geek.utils.threadlocal.AppThreadLocalUtils;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//
-//import java.util.HashMap;
-//import java.util.Map;
-//
-//@Service
-//public class AppArticleInfoServiceImpl implements IAppArticleInfoService {
-//
-//    @Autowired
-//    private IApArticleConfigMapper apArticleConfigMapper;
-//    @Autowired
-//    private IApArticleContentMapper apArticleContentMapper;
-//    @Autowired
-//    private IApBehaviorEntryMapper apBehaviorEntryMapper;
-//    @Autowired
-//    private IApCollectionMapper apCollectionMapper;
-//    @Autowired
-//    private IApLikesBehaviorMapper apLikesBehaviorMapper;
-//    @Autowired
-//    private IApUnlikesBehaviorMapper apUnlikesBehaviorMapper;
-//    @Autowired
-//    private IApAuthorMapper apAuthorMapper;
-//    @Autowired
-//    private IApUserFollowMapper apUserFollowMapper;
-//
-//    @Override
-//    public ResponseResult getArticleInfo(Integer articleId) {
-//
-//        if (articleId == null || articleId < 1) {
-//            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
-//        }
-//
-//        Map<String, Object> data = new HashMap<>();
-//
-//        // 根据文章 id 查询 config 的信息。
-//        ApArticleConfig apArticleConfig = apArticleConfigMapper.selectByArticleId(articleId);
-//        // 判断当前文章是否删除。
-//        if (apArticleConfig == null) {
-//            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
-//        } else if (!apArticleConfig.getIsDelete()) {
-//            ApArticleContent apArticleContent = apArticleContentMapper.selectByArticleId(articleId);
-//            String content = ZipUtils.gunzip(apArticleContent.getContent());
-//            apArticleContent.setContent(content);
-//            data.put("content", apArticleContent);
-//        }
-//        data.put("config", apArticleConfig);
-//
-//        return ResponseResult.okResult(data);
-//    }
-//
-//    @Override
-//    public ResponseResult loadArticleBehavior(ArticleInfoDto dto) {
+package com.geek.article.service.impl;
+
+import com.geek.article.service.IAppArticleInfoService;
+import com.geek.model.article.dtos.ArticleInfoDto;
+import com.geek.model.article.pojos.ApArticleConfig;
+import com.geek.model.article.pojos.ApArticleContent;
+import com.geek.model.article.pojos.ApAuthor;
+import com.geek.model.article.pojos.ApCollection;
+import com.geek.model.behavior.pojos.ApBehaviorEntry;
+import com.geek.model.behavior.pojos.ApLikesBehavior;
+import com.geek.model.behavior.pojos.ApUnlikesBehavior;
+import com.geek.model.common.dtos.ResponseResult;
+import com.geek.model.common.enums.AppHttpCodeEnum;
+import com.geek.model.mappers.app.*;
+import com.geek.model.user.pojos.ApUser;
+import com.geek.model.user.pojos.ApUserFollow;
+import com.geek.utils.common.BurstUtils;
+import com.geek.utils.common.ZipUtils;
+import com.geek.utils.threadlocal.AppThreadLocalUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@Service
+public class AppArticleInfoServiceImpl implements IAppArticleInfoService {
+
+    @Autowired
+    private IApArticleConfigMapper apArticleConfigMapper;
+    @Autowired
+    private IApArticleContentMapper apArticleContentMapper;
+    @Autowired
+    private IApBehaviorEntryMapper apBehaviorEntryMapper;
+    @Autowired
+    private IApCollectionMapper apCollectionMapper;
+    @Autowired
+    private IApLikesBehaviorMapper apLikesBehaviorMapper;
+    @Autowired
+    private IApUnlikesBehaviorMapper apUnlikesBehaviorMapper;
+    @Autowired
+    private IApAuthorMapper apAuthorMapper;
+    @Autowired
+    private IApUserFollowMapper apUserFollowMapper;
+
+    /**
+     * 加载文章详情。
+     */
+    @Override
+    public ResponseResult getArticleInfo(Integer articleId) {
+
+        if (articleId == null || articleId < 1) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
+        }
+
+        Map<String, Object> dataMap = new HashMap<>();
+
+        // 根据文章 id 查询 config 信息。
+        ApArticleConfig apArticleConfig = apArticleConfigMapper.selectByArticleId(articleId);
+        // 判断当前文章是否删除。
+        if (apArticleConfig == null) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
+        } else if (!apArticleConfig.getIsDelete()) {// 没有删除。
+            ApArticleContent apArticleContent = apArticleContentMapper.selectByArticleId(articleId);
+            String content = ZipUtils.gunzip(apArticleContent.getContent());
+            apArticleContent.setContent(content);
+            dataMap.put("content", apArticleContent);
+        }
+        dataMap.put("config", apArticleConfig);
+
+        return ResponseResult.okResult(dataMap);
+    }
+
+    /**
+     * 加载文章详情的初始化配置信息，比如关注，收藏，点赞，不喜欢。
+     */
+    @Override
+    public ResponseResult loadArticleBehavior(ArticleInfoDto dto) {
+
+        return null;
+
 //        ApUser user = AppThreadLocalUtils.getUser();
 //        // 用户与设备不能同时为空。
 //        if (user == null && dto.getEquipmentId() == null) {
@@ -110,13 +119,13 @@
 //                isFollow = true;
 //            }
 //        }
-//        Map<String, Object> data = new HashMap<>();
-//        data.put("isfollow", isFollow);
-//        data.put("islike", isLike);
-//        data.put("isunlike", isUnlike);
-//        data.put("iscollection", isCollection);
+//        Map<String, Object> dataMap = new HashMap<>();
+//        dataMap.put("isfollow", isFollow);
+//        dataMap.put("islike", isLike);
+//        dataMap.put("isunlike", isUnlike);
+//        dataMap.put("iscollection", isCollection);
 //
-//        return ResponseResult.okResult(data);
-//    }
-//
-//}
+//        return ResponseResult.okResult(dataMap);
+    }
+
+}

@@ -19,23 +19,24 @@ public class CrawlerHelpPageProcessor extends AbstractCrawlerPageProcessor {
 
     private final String helpUrlSuffix = "?utm_source=feed";
     private final String helpPageSuffix = "/article/list/";
+
     @Autowired
     private CrawlerConfigProperty crawlerConfigProperty;
     @Autowired
     private CrawlerHelper crawlerHelper;
 
     /**
-     * 处理数据。
+     * 个人主页数据处理。
      *
      * @param page
      */
     @Override
-    public void handelPage(Page page) {
+    public void handlePage(Page page) {
         // 获取类型。
-        String handelType = crawlerHelper.getHandelType(page.getRequest());
+        String handleType = crawlerHelper.getHandleType(page.getRequest());
         long currentTime = System.currentTimeMillis();
         String requestUrl = page.getUrl().get();
-        log.info("开始解析帮助页，url：{}，handelType：{}", requestUrl, handelType);
+        log.info("开始解析帮助页。url：{}，handleType：{}", requestUrl, handleType);
         // 获取配置的抓取规则。
         String helpCrawlerXpath = crawlerConfigProperty.getHelpCrawlerXpath();
         Integer crawlerHelpNextPagingSize = crawlerConfigProperty.getCrawlerHelpNextPagingSize();
@@ -48,7 +49,7 @@ public class CrawlerHelpPageProcessor extends AbstractCrawlerPageProcessor {
             }
         }
         addSpiderRequest(helpUrlList, page.getRequest(), CrawlerEnum.DocumentType.PAGE);
-        log.info("解析帮助页数据完成，url：{}，handelType：{}，耗时：{}", page.getUrl(), handelType, System.currentTimeMillis() - currentTime);
+        log.info("解析帮助页数据完成。url：{}，handleType：{}，耗时：{}", page.getUrl(), handleType, System.currentTimeMillis() - currentTime);
     }
 
     /**
@@ -59,14 +60,14 @@ public class CrawlerHelpPageProcessor extends AbstractCrawlerPageProcessor {
      * @return
      */
     private List<String> getDocPageUrlList(String url, Integer pageSize) {
-        List<String> docPagePaingUrlList = null;
+        List<String> docPagePageUrlList = null;
         if (url.endsWith(helpUrlSuffix)) {
             // 分页的 url。
             List<String> pagePagingUrlList = generateHelpPagingUrl(url, pageSize);
             // 获取分页数据中的目标 url。
-            docPagePaingUrlList = getHelpPagingDocUrl(pagePagingUrlList);
+            docPagePageUrlList = getHelpPagingDocUrl(pagePagingUrlList);
         }
-        return docPagePaingUrlList;
+        return docPagePageUrlList;
     }
 
     /**
@@ -82,7 +83,7 @@ public class CrawlerHelpPageProcessor extends AbstractCrawlerPageProcessor {
         int failCount = 0;
         if (!pagePagingUrlList.isEmpty()) {
             for (String url : pagePagingUrlList) {
-                log.info("开始进行 help 页面分页处理，url：", url);
+                log.info("开始进行 help 页面分页处理。url：{}", url);
                 String htmlData = getOriginalRequestHtmlData(url, null);
                 boolean validate = crawlerHelper.getDataValidateCallBack().validate(htmlData);
                 if (validate) {
@@ -122,12 +123,12 @@ public class CrawlerHelpPageProcessor extends AbstractCrawlerPageProcessor {
      * 处理的爬虫类型。
      * 正向。
      *
-     * @param handelType
+     * @param handleType
      * @return
      */
     @Override
-    public boolean isNeedHandelType(String handelType) {
-        return CrawlerEnum.HandelType.FORWARD.name().equals(handelType);
+    public boolean isNeedHandleType(String handleType) {
+        return CrawlerEnum.HandleType.FORWARD.name().equals(handleType);
     }
 
     /**

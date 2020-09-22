@@ -7,20 +7,20 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="geek-leadnews-admin" />
-        <module name="geek-leadnews-apis" />
         <module name="geek-leadnews-article" />
-        <module name="geek-leadnews-behavior" />
-        <module name="geek-leadnews-common" />
-        <module name="geek-leadnews-crawler" />
-        <module name="geek-leadnews-images" />
-        <module name="geek-leadnews-login" />
-        <module name="geek-leadnews-media" />
-        <module name="geek-leadnews-migration" />
         <module name="geek-leadnews-model" />
-        <module name="geek-leadnews-user" />
-        <module name="geek-leadnews-utils" />
+        <module name="geek-leadnews-images" />
+        <module name="geek-leadnews-migration" />
+        <module name="geek-leadnews-common" />
+        <module name="geek-leadnews-admin" />
         <module name="service-mycat" />
+        <module name="geek-leadnews-crawler" />
+        <module name="geek-leadnews-utils" />
+        <module name="geek-leadnews-behavior" />
+        <module name="geek-leadnews-login" />
+        <module name="geek-leadnews-user" />
+        <module name="geek-leadnews-apis" />
+        <module name="geek-leadnews-media" />
       </profile>
     </annotationProcessing>
   </component>

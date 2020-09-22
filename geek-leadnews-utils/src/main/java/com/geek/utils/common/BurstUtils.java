@@ -14,14 +14,14 @@ public class BurstUtils {
      * @return
      */
     public static String encrypt(Object... fields) {
-        StringBuffer sb = new StringBuffer();
+        StringBuffer stringBuffer = new StringBuffer();
         if (fields != null && fields.length > 0) {
-            sb.append(fields[0]);
+            stringBuffer.append(fields[0]);
             for (int i = 1; i < fields.length; i++) {
-                sb.append(SPLIT_CHAR).append(fields[i]);
+                stringBuffer.append(SPLIT_CHAR).append(fields[i]);
             }
         }
-        return sb.toString();
+        return stringBuffer.toString();
     }
 
     /**
@@ -31,13 +31,14 @@ public class BurstUtils {
      * @return
      */
     public static String groundOne(Object... fields) {
-        StringBuffer sb = new StringBuffer();
+        StringBuffer stringBuffer = new StringBuffer();
         if (fields != null && fields.length > 0) {
-            sb.append("0");
+            stringBuffer.append("0");
             for (int i = 0; i < fields.length; i++) {
-                sb.append(SPLIT_CHAR).append(fields[i]);
+                stringBuffer.append(SPLIT_CHAR).append(fields[i]);
             }
         }
-        return sb.toString();
+        return stringBuffer.toString();
     }
+
 }

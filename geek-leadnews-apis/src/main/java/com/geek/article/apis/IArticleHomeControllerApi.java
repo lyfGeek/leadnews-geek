@@ -28,4 +28,5 @@ public interface IArticleHomeControllerApi {
      * @return
      */
     ResponseResult loadNew(ArticleHomeDto articleHomeDto);
+
 }

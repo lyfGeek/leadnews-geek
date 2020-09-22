@@ -29,7 +29,7 @@ public abstract class AbstractCrawlerPageProcessor extends AbstractProcessFlow i
     private CrawlerHelper crawlerHelper;
 
     @Override
-    public void handel(ProcessFlowData processFlowData) {
+    public void handle(ProcessFlowData processFlowData) {
 
     }
 
@@ -39,17 +39,17 @@ public abstract class AbstractCrawlerPageProcessor extends AbstractProcessFlow i
     }
 
     /**
-     * process是定制爬虫逻辑的核心接口方法，在这里编写抽取逻辑
+     * 定制爬虫逻辑的核心接口方法，在这里编写抽取逻辑。
      *
      * @param page
      */
     @Override
     public void process(Page page) {
         long currentTimeMillis = System.currentTimeMillis();
-        String handelType = crawlerHelper.getHandelType(page.getRequest());
-        log.info("开始解析数据页面：url：{}，handelType：{}", page.getUrl(), handelType);
-        crawlerPageProcessorManager.handel(page);
-        log.info("解析数据页面完成，url：{}，handelType：{}，耗时：{}", page.getUrl(), handelType, System.currentTimeMillis() - currentTimeMillis);
+        String handleType = crawlerHelper.getHandleType(page.getRequest());
+        log.info("开始解析数据页面。url：{}，handleType：{}", page.getUrl(), handleType);
+        crawlerPageProcessorManager.handle(page);
+        log.info("解析数据页面完成。url：{}，handleType：{}，耗时：{}", page.getUrl(), handleType, System.currentTimeMillis() - currentTimeMillis);
     }
 
     @Override
@@ -62,7 +62,6 @@ public abstract class AbstractCrawlerPageProcessor extends AbstractProcessFlow i
                 site.addHeader(entry.getKey(), entry.getValue());
             }
         }
-
         return site;
     }
 
@@ -94,7 +93,7 @@ public abstract class AbstractCrawlerPageProcessor extends AbstractProcessFlow i
             for (String url : urlList) {
                 CrawlerParseItem crawlerParseItem = new CrawlerParseItem();
                 crawlerParseItem.setUrl(url);
-                crawlerParseItem.setHandelType(crawlerHelper.getHandelType(request));
+                crawlerParseItem.setHandleType(crawlerHelper.getHandleType(request));
                 crawlerParseItem.setDocumentType(documentType.name());
                 parseItemList.add(crawlerParseItem);
             }
@@ -107,15 +106,15 @@ public abstract class AbstractCrawlerPageProcessor extends AbstractProcessFlow i
      *
      * @param page
      */
-    public abstract void handelPage(Page page);
+    public abstract void handlePage(Page page);
 
     /**
      * 是否需要处理类型。
      *
-     * @param handelType
+     * @param handleType
      * @return
      */
-    public abstract boolean isNeedHandelType(String handelType);
+    public abstract boolean isNeedHandleType(String handleType);
 
     /**
      * 是否需要文档类型。

@@ -16,11 +16,11 @@ public class ZkTest {
     private Sequences sequences;
 
     @Test
-    public void test1() {
+    public void test() {
         for (int i = 0; i < 50; i++) {
             Long aLong = sequences.sequenceApReadBehavior();
-            System.out.println(aLong + "----------------");
+            System.out.println(aLong + "~ ~ ~ ~ ~ ~ ~");
         }
-
     }
+
 }

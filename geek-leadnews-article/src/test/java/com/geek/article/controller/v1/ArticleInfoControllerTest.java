@@ -23,18 +23,19 @@ public class ArticleInfoControllerTest {
 
     // 使用 mockmvc。
     @Autowired
-    private MockMvc mvc;
+    private MockMvc mockMvc;
 
     @Autowired
-    private ObjectMapper mapper;
+    private ObjectMapper objectMapper;
 
     @Test
     public void testLoadArticleInfo() throws Exception {
-        ArticleInfoDto dto = new ArticleInfoDto();
-        dto.setArticleId(1);
+        ArticleInfoDto articleInfoDto = new ArticleInfoDto();
+        articleInfoDto.setArticleId(1);
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/api/v1/article/load_article_info")
-                .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapper.writeValueAsBytes(dto));
-        mvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print());
+                .contentType(MediaType.APPLICATION_JSON_VALUE)// 参数类型。
+                .content(objectMapper.writeValueAsBytes(articleInfoDto));// 参数。
+        mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print());
     }
 
     @Test
@@ -44,8 +45,8 @@ public class ArticleInfoControllerTest {
         dto.setEquipmentId(1);
         dto.setAuthorId(1);
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/api/v1/article/load_article_behavior")
-                .contentType(MediaType.APPLICATION_JSON_VALUE).content(mapper.writeValueAsBytes(dto));
-        mvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print());
+                .contentType(MediaType.APPLICATION_JSON_VALUE).content(objectMapper.writeValueAsBytes(dto));
+        mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print());
     }
 
 }

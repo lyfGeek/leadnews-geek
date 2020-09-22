@@ -3,13 +3,15 @@ package com.geek.model.crawler.core.parse;
 import com.geek.model.crawler.enums.CrawlerEnum;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * 抓取内容封装。
  */
 @Data
-public class ParseRule {
+public class ParseRule implements Serializable {
+
     /**
      * 映射字段。
      */

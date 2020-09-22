@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,45 +61,65 @@ public class ApArticleSearchServiceImpl implements IApArticleSearchService {
         if (user != null) {
             userId = user.getId();
         }
+        System.out.println(dto.getEquipmentId());
         ApBehaviorEntry apBehaviorEntry = apBehaviorEntryMapper.selectByUserIdOrEquipmentId(userId, dto.getEquipmentId());
-        // 行为实体找以及注册了，逻辑上这里是必定有值得，除非参数错误。
+        // 行为实体找以及注册了，逻辑上这里必定有值，除非参数错误。
         if (apBehaviorEntry == null) {
             return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
         }
         return ResponseResult.okResult(apBehaviorEntry.getId());
     }
 
+    /**
+     * 查询搜索历史。
+     *
+     * @param dto
+     * @return
+     */
     @Override
     public ResponseResult findUserSearch(UserSearchDto dto) {
         if (dto.getPageSize() > 50 || dto.getPageSize() < 0) {
             return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID);
         }
         // 先获取行为实体 id。
-        ResponseResult result = getEntryId(dto);
-        if (result.getCode() != AppHttpCodeEnum.SUCCESS.getCode()) {
-            return result;
+        ResponseResult responseResult = getEntryId(dto);
+        if (responseResult.getCode() != AppHttpCodeEnum.SUCCESS.getCode()) {
+            return responseResult;
         }
         // 查询搜索记录。
-        List<ApUserSearch> list = apUserSearchMapper.selectByEntryId((int) result.getData(), dto.getPageSize());
+        List<ApUserSearch> list = apUserSearchMapper.selectByEntryId((int) responseResult.getData(), dto.getPageSize());
         return ResponseResult.okResult(list);
     }
 
+    /**
+     * 删除搜索历史。
+     *
+     * @param dto
+     * @return
+     */
     @Override
     public ResponseResult delUserSearch(UserSearchDto dto) {
         if (dto.getHisList() == null || dto.getHisList().size() <= 0) {
             return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_REQUIRE);
         }
-        // 获取行为实体id。
-        ResponseResult result = getEntryId(dto);
-        if (result.getCode() != AppHttpCodeEnum.SUCCESS.getCode()) {
-            return result;
+        // 获取行为实体 id。
+        ResponseResult responseResult = getEntryId(dto);
+        if (responseResult.getCode() != AppHttpCodeEnum.SUCCESS.getCode()) {
+            return responseResult;
         }
+        // 只需要传递 id。
         List<Integer> ids = dto.getHisList().stream().map(ApUserSearch::getId).collect(Collectors.toList());
         // 通过 id 修改状态。
-        int count = apUserSearchMapper.delUserSearch((int) result.getData(), ids);
-        return ResponseResult.okResult(count);
+        int iCount = apUserSearchMapper.delUserSearch((int) responseResult.getData(), ids);
+        return ResponseResult.okResult(iCount);
     }
 
+    /**
+     * 清空搜索历史记录。
+     *
+     * @param dto
+     * @return
+     */
     @Override
     public ResponseResult clearUserSearch(UserSearchDto dto) {
         ResponseResult result = getEntryId(dto);
@@ -109,8 +130,15 @@ public class ApArticleSearchServiceImpl implements IApArticleSearchService {
         return ResponseResult.okResult(count);
     }
 
+    /**
+     * 今日热词。
+     *
+     * @param date
+     * @return
+     */
     @Override
     public ResponseResult hotkeywords(String date) {
+        // 如果为空，默认现在时间。
         if (StringUtils.isEmpty(date)) {
             date = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
         }
@@ -118,6 +146,12 @@ public class ApArticleSearchServiceImpl implements IApArticleSearchService {
         return ResponseResult.okResult(apHotWords);
     }
 
+    /**
+     * 模糊查询。
+     *
+     * @param dto
+     * @return
+     */
     @Override
     public ResponseResult searchAssociate(UserSearchDto dto) {
         if (dto.getPageSize() > 50 || dto.getPageSize() < 1) {
@@ -127,15 +161,24 @@ public class ApArticleSearchServiceImpl implements IApArticleSearchService {
         return ResponseResult.okResult(apAssociateWords);
     }
 
+    /**
+     * 保存搜索记录。
+     *
+     * @param entryId
+     * @param searchWords
+     * @return
+     */
     @Override
     public ResponseResult saveUserSearch(Integer entryId, String searchWords) {
-        // 去检查当前数据是否存在。
-        int count = apUserSearchMapper.checkExist(entryId, searchWords);
-        if (count > 0) {
-            return ResponseResult.okResult(1);
+        // 检查当前数据是否存在。
+        int iCount = apUserSearchMapper.checkExist(entryId, searchWords);
+        // 存在，直接返回。
+        if (iCount > 0) {
+            return ResponseResult.okResult(iCount);
         }
         // 不存在，保存。
         ApUserSearch apUserSearch = new ApUserSearch();
+        apUserSearch.setId(entryId);
         apUserSearch.setEntryId(entryId);
         apUserSearch.setKeyword(searchWords);
         apUserSearch.setStatus(1);
@@ -144,28 +187,40 @@ public class ApArticleSearchServiceImpl implements IApArticleSearchService {
         return ResponseResult.okResult(insert);
     }
 
+    /**
+     * es 文章分页搜索。
+     *
+     * @param dto
+     * @return
+     */
     @Override
     public ResponseResult esArticleSearch(UserSearchDto dto) {
         // 保存搜索记录，只在第一页查询的时候进行保存。
         if (dto.getFromIndex() == 0) {
-            ResponseResult ret = getEntryId(dto);
-            if (ret.getCode() != AppHttpCodeEnum.SUCCESS.getCode()) {
-                return ret;
+            ResponseResult responseResult = getEntryId(dto);
+            if (responseResult.getCode() != AppHttpCodeEnum.SUCCESS.getCode()) {
+                return responseResult;
             }
-            saveUserSearch((int) ret.getData(), dto.getSearchWords());
+            saveUserSearch((int) responseResult.getData(), dto.getSearchWords());
         }
+
         // 构建查询条件 jestClient。
+        // jestClient 参数：Search。
         // 按照关键字查询，分页查询。
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        // es 参数。
         searchSourceBuilder.query(QueryBuilders.matchQuery("title", dto.getSearchWords()));
+        // 分页。
         searchSourceBuilder.from(dto.getFromIndex());
         searchSourceBuilder.size(dto.getPageSize());
         Search search = new Search.Builder(searchSourceBuilder.toString())
                 .addIndex(ESIndexConstants.ARTICLE_INDEX)
-                .addType(ESIndexConstants.DEFAULT_DOC).build();
+                .addType(ESIndexConstants.DEFAULT_DOC)
+                .build();
         try {
             SearchResult searchResult = jestClient.execute(search);
             List<ApArticle> apArticles = searchResult.getSourceAsObjectList(ApArticle.class);
+            // 过滤空。
             List<ApArticle> resultList = new ArrayList<>();
             for (ApArticle apArticle : apArticles) {
                 apArticle = apArticleMapper.selectById(Long.valueOf(apArticle.getId()));
@@ -174,7 +229,7 @@ public class ApArticleSearchServiceImpl implements IApArticleSearchService {
                 }
                 resultList.add(apArticle);
             }
-            // 获取结果。
+            // 返回结果。
             return ResponseResult.okResult(resultList);
         } catch (IOException e) {
             e.printStackTrace();

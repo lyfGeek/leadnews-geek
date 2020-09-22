@@ -10,14 +10,14 @@ public class ZkSequence {
 
     RetryPolicy retryPolicy = new ExponentialBackoffRetry(500, 3);
 
-    DistributedAtomicLong distAtomicLong;
+    private DistributedAtomicLong distAtomicLong;
 
     public ZkSequence(CuratorFramework client, String counterPath) {
-        this.distAtomicLong = distAtomicLong = new DistributedAtomicLong(client, counterPath, retryPolicy);
+        this.distAtomicLong = new DistributedAtomicLong(client, counterPath, retryPolicy);
     }
 
     /**
-     * 生成序列
+     * 生成序列。
      *
      * @return
      * @throws Exception

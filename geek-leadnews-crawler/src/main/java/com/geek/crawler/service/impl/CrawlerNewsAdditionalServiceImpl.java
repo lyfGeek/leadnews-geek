@@ -16,7 +16,6 @@ import java.util.List;
 
 @Service
 @Log4j2
-@SuppressWarnings("all")
 public class CrawlerNewsAdditionalServiceImpl implements ICrawlerNewsAdditionalService {
 
     @Autowired
@@ -29,8 +28,7 @@ public class CrawlerNewsAdditionalServiceImpl implements ICrawlerNewsAdditionalS
 
     @Override
     public List<ClNewsAdditional> queryListByNeedUpdate(Date currentDate) {
-        List<ClNewsAdditional> clNewsAdditionals = clNewsAdditionalMapper.selectListByNeedUpdate(currentDate);
-        return clNewsAdditionals;
+        return clNewsAdditionalMapper.selectListByNeedUpdate(currentDate);
     }
 
     @Override
@@ -42,8 +40,8 @@ public class CrawlerNewsAdditionalServiceImpl implements ICrawlerNewsAdditionalS
     public boolean checkExist(String url) {
         ClNewsAdditional clNewsAdditional = new ClNewsAdditional();
         clNewsAdditional.setUrl(url);
-        List<ClNewsAdditional> clNewsAdditionals = clNewsAdditionalMapper.selectList(clNewsAdditional);
-        if (null != clNewsAdditionals && !clNewsAdditionals.isEmpty()) {
+        List<ClNewsAdditional> clNewsAdditionalList = clNewsAdditionalMapper.selectList(clNewsAdditional);
+        if (null != clNewsAdditionalList && !clNewsAdditionalList.isEmpty()) {
             return true;
         }
         return false;
@@ -53,9 +51,9 @@ public class CrawlerNewsAdditionalServiceImpl implements ICrawlerNewsAdditionalS
     public ClNewsAdditional getAdditionalByUrl(String url) {
         ClNewsAdditional clNewsAdditional = new ClNewsAdditional();
         clNewsAdditional.setUrl(url);
-        List<ClNewsAdditional> clNewsAdditionals = clNewsAdditionalMapper.selectList(clNewsAdditional);
-        if (null != clNewsAdditionals && !clNewsAdditionals.isEmpty()) {
-            return clNewsAdditionals.get(0);
+        List<ClNewsAdditional> clNewsAdditionalList = clNewsAdditionalMapper.selectList(clNewsAdditional);
+        if (null != clNewsAdditionalList && !clNewsAdditionalList.isEmpty()) {
+            return clNewsAdditionalList.get(0);
         }
         return null;
     }
@@ -101,8 +99,9 @@ public class CrawlerNewsAdditionalServiceImpl implements ICrawlerNewsAdditionalS
 
     @Override
     public List<ParseItem> queryIncrementParseItem(Date currentDate) {
-        List<ClNewsAdditional> clNewsAdditionals = queryListByNeedUpdate(currentDate);
-        List<ParseItem> parseItemList = toParseItem(clNewsAdditionals);
+        List<ClNewsAdditional> clNewsAdditionalList = queryListByNeedUpdate(currentDate);
+        List<ParseItem> parseItemList = toParseItem(clNewsAdditionalList);
         return parseItemList;
     }
+
 }

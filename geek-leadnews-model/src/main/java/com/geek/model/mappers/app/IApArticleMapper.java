@@ -17,6 +17,12 @@ public interface IApArticleMapper {
      */
     List<ApArticle> loadArticleListByIdList(List<ApUserArticleList> list);
 
+    /**
+     * 根据 id 查询文章。
+     *
+     * @param id
+     * @return
+     */
     ApArticle selectById(Long id);
 
     void insert(ApArticle apArticle);

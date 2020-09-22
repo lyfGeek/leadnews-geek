@@ -7,7 +7,7 @@ public class CrawlerEnum {
      * FORWARD ~ 正向。
      * REVERSE ~ 反向。
      */
-    public enum HandelType {
+    public enum HandleType {
         FORWARD, REVERSE
     }
 

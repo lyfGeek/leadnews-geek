@@ -1,7 +1,6 @@
 package com.geek.crawler.process.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import us.codecraft.webmagic.downloader.Downloader;
 import us.codecraft.webmagic.pipeline.Pipeline;
 import us.codecraft.webmagic.processor.PageProcessor;
@@ -14,9 +13,9 @@ import java.util.List;
 /**
  * 抓取组件。
  */
-@Setter
-@Getter
+@Data
 public class CrawlerComponent implements Serializable {
+
     /**
      * 页面处理类。
      */

@@ -4,7 +4,6 @@ import com.geek.crawler.config.CrawlerConfig;
 import com.geek.crawler.process.IProcessFlow;
 import com.geek.crawler.process.entity.CrawlerComponent;
 import com.geek.crawler.process.entity.ProcessFlowData;
-import com.geek.crawler.service.ICrawlerNewsAdditionalService;
 import com.geek.model.crawler.core.parse.ParseItem;
 import com.geek.model.crawler.enums.CrawlerEnum;
 import lombok.extern.log4j.Log4j2;
@@ -18,7 +17,6 @@ import us.codecraft.webmagic.scheduler.Scheduler;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -32,8 +30,8 @@ public class ProcessingFlowManager {
     @Resource
     private List<IProcessFlow> processFlowList;
 
-    @Autowired
-    private ICrawlerNewsAdditionalService crawlerNewsAdditionalService;
+//    @Autowired
+//    private ICrawlerNewsAdditionalService crawlerNewsAdditionalService;
 
     /**
      * spring 启动的时候初始化方法。
@@ -43,16 +41,13 @@ public class ProcessingFlowManager {
     @PostConstruct
     public void initProcessingFlow() {
         if (null != processFlowList && !processFlowList.isEmpty()) {
-            processFlowList.sort(new Comparator<IProcessFlow>() {
-                @Override
-                public int compare(IProcessFlow o1, IProcessFlow o2) {
-                    if (o1.getPriority() > o2.getPriority()) {
-                        return 1;
-                    } else if (o1.getPriority() < o2.getPriority()) {
-                        return -1;
-                    }
-                    return 0;
+            processFlowList.sort((o1, o2) -> {
+                if (o1.getPriority() > o2.getPriority()) {
+                    return 1;
+                } else if (o1.getPriority() < o2.getPriority()) {
+                    return -1;
                 }
+                return 0;
             });
         }
         Spider spider = configSpider();
@@ -66,25 +61,25 @@ public class ProcessingFlowManager {
     }
 
     /**
-     * 根据 ProcessFlow 接口的 getComponentType 接口类型生成 spider 对象。
+     * 根据 IProcessFlow 接口的 getComponentType(); 接口类型生成 Spider 对象。
      *
      * @return
      */
     private Spider initSpider() {
         Spider spider = null;
-        CrawlerComponent component = getComponent(processFlowList);
-        if (null != component) {
-            PageProcessor pageProcessor = component.getPageProcessor();
+        CrawlerComponent crawlerComponent = getComponent(processFlowList);
+        if (null != crawlerComponent) {
+            PageProcessor pageProcessor = crawlerComponent.getPageProcessor();
             if (pageProcessor != null) {
                 spider = Spider.create(pageProcessor);
             }
-            if (null != spider && null != component.getScheduler()) {
-                spider.setScheduler(component.getScheduler());
+            if (null != spider && null != crawlerComponent.getScheduler()) {
+                spider.setScheduler(crawlerComponent.getScheduler());
             }
-            if (null != spider && null != component.getDownloader()) {
-                spider.setDownloader(component.getDownloader());
+            if (null != spider && null != crawlerComponent.getDownloader()) {
+                spider.setDownloader(crawlerComponent.getDownloader());
             }
-            List<Pipeline> pipelineList = component.getPipelineList();
+            List<Pipeline> pipelineList = crawlerComponent.getPipelineList();
             if (null != spider && null != pipelineList && !pipelineList.isEmpty()) {
                 for (Pipeline pipeline : pipelineList) {
                     spider.addPipeline(pipeline);
@@ -101,33 +96,33 @@ public class ProcessingFlowManager {
      * @return
      */
     private CrawlerComponent getComponent(List<IProcessFlow> processFlowList) {
-        CrawlerComponent component = new CrawlerComponent();
+        CrawlerComponent crawlerComponent = new CrawlerComponent();
         for (IProcessFlow processFlow : processFlowList) {
             if (processFlow.getComponentType() == CrawlerEnum.ComponentType.PAGEPROCESSOR) {
-                component.setPageProcessor((PageProcessor) processFlow);
+                crawlerComponent.setPageProcessor((PageProcessor) processFlow);
             } else if (processFlow.getComponentType() == CrawlerEnum.ComponentType.PIPELINE) {
-                component.addPipeline((Pipeline) processFlow);
+                crawlerComponent.addPipeline((Pipeline) processFlow);
             } else if (processFlow.getComponentType() == CrawlerEnum.ComponentType.DOWNLOAD) {
-                component.setDownloader((Downloader) processFlow);
+                crawlerComponent.setDownloader((Downloader) processFlow);
             } else if (processFlow.getComponentType() == CrawlerEnum.ComponentType.SCHEDULER) {
-                component.setScheduler((Scheduler) processFlow);
+                crawlerComponent.setScheduler((Scheduler) processFlow);
             }
         }
-        return component;
+        return crawlerComponent;
     }
 
     /**
      * 开始处理爬虫任务。
      *
      * @param parseItemList
-     * @param handelType
+     * @param handleType
      */
-    public void startTask(List<ParseItem> parseItemList, CrawlerEnum.HandelType handelType) {
+    public void startTask(List<ParseItem> parseItemList, CrawlerEnum.HandleType handleType) {
         ProcessFlowData processFlowData = new ProcessFlowData();
-        processFlowData.setHandelType(handelType);
+        processFlowData.setHandleType(handleType);
         processFlowData.setParseItemList(parseItemList);
         for (IProcessFlow processFlow : processFlowList) {
-            processFlow.handel(processFlowData);
+            processFlow.handle(processFlowData);
         }
         crawlerConfig.getSpider().start();
     }
@@ -135,15 +130,15 @@ public class ProcessingFlowManager {
     /**
      * 逆向处理。
      */
-    public void reverseHandel() {
-        List<ParseItem> parseItemList = crawlerNewsAdditionalService.queryIncrementParseItem(new Date());
-        handelReverseData(parseItemList);
-        log.info("开始进行数据逆向更新，增量数据数量为：{}", parseItemList.size());
-        if (null != parseItemList && !parseItemList.isEmpty()) {
-            startTask(parseItemList, CrawlerEnum.HandelType.REVERSE);
-        } else {
-            log.info("增量数据为空不能进行数据更新。");
-        }
+    public void reverseHandle() {
+//        List<ParseItem> parseItemList = crawlerNewsAdditionalService.queryIncrementParseItem(new Date());
+//        handleReverseData(parseItemList);
+//        log.info("开始进行数据逆向更新，增量数据数量为：{}", parseItemList.size());
+//        if (null != parseItemList && !parseItemList.isEmpty()) {
+//            startTask(parseItemList, CrawlerEnum.HandleType.REVERSE);
+//        } else {
+//            log.info("增量数据为空不能进行数据更新。");
+//        }
     }
 
     /**
@@ -151,11 +146,11 @@ public class ProcessingFlowManager {
      *
      * @param parseItemList
      */
-    private void handelReverseData(List<ParseItem> parseItemList) {
+    private void handleReverseData(List<ParseItem> parseItemList) {
         if (null != parseItemList && !parseItemList.isEmpty()) {
             for (ParseItem parseItem : parseItemList) {
                 parseItem.setDocumentType(CrawlerEnum.DocumentType.PAGE.name());
-                parseItem.setHandelType(CrawlerEnum.HandelType.REVERSE.name());
+                parseItem.setHandleType(CrawlerEnum.HandleType.REVERSE.name());
             }
         }
     }
@@ -163,8 +158,8 @@ public class ProcessingFlowManager {
     /**
      * 正向爬取。
      */
-    public void handel() {
-        startTask(null, CrawlerEnum.HandelType.FORWARD);
+    public void handle() {
+        startTask(null, CrawlerEnum.HandleType.FORWARD);
     }
 
 }

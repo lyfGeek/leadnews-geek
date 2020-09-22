@@ -42,7 +42,7 @@ public interface ICrawlerIpPoolService {
      * @param clIpPool
      * @return
      */
-    List<ClIpPool> queryAvailabelList(ClIpPool clIpPool);
+    List<ClIpPool> queryAvailableList(ClIpPool clIpPool);
 
     /**
      * 删除。

@@ -46,7 +46,7 @@ public class CrawlerHelper {
     /**
      * 获取 ParseItem。
      *
-     * @param request
+     * @param request WebMagic 提供。
      * @return
      */
     public ParseItem getParseItem(Request request) {
@@ -86,13 +86,13 @@ public class CrawlerHelper {
      * @param request
      * @return
      */
-    public String getHandelType(Request request) {
-        String handelType = CrawlerEnum.HandelType.FORWARD.name();
+    public String getHandleType(Request request) {
+        String handleType = CrawlerEnum.HandleType.FORWARD.name();
         ParseItem parseItem = getParseItem(request);
         if (null != parseItem) {
-            handelType = parseItem.getHandelType();
+            handleType = parseItem.getHandleType();
         }
-        return handelType;
+        return handleType;
     }
 
     /**

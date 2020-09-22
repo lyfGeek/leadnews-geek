@@ -2,12 +2,14 @@ package com.geek.crawler.process.entity;
 
 import com.geek.model.crawler.core.parse.ParseItem;
 import com.geek.model.crawler.enums.CrawlerEnum;
+import lombok.Data;
 
 import java.util.List;
 
 /**
  * 流程数据。
  */
+@Data
 public class ProcessFlowData {
 
     /**
@@ -17,22 +19,6 @@ public class ProcessFlowData {
     /**
      * 处理类型。
      */
-    private CrawlerEnum.HandelType handelType = CrawlerEnum.HandelType.FORWARD;
-
-    public List<ParseItem> getParseItemList() {
-        return parseItemList;
-    }
-
-    public void setParseItemList(List<ParseItem> parseItemList) {
-        this.parseItemList = parseItemList;
-    }
-
-    public CrawlerEnum.HandelType getHandelType() {
-        return handelType;
-    }
-
-    public void setHandelType(CrawlerEnum.HandelType handelType) {
-        this.handelType = handelType;
-    }
+    private CrawlerEnum.HandleType handleType = CrawlerEnum.HandleType.FORWARD;
 
 }

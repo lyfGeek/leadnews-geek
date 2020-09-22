@@ -34,7 +34,7 @@ public abstract class AbstractHtmlParsePipeline<T> extends AbstractProcessFlow i
     private CrawlerHelper crawlerHelper;
 
     @Override
-    public void handel(ProcessFlowData processFlowData) {
+    public void handle(ProcessFlowData processFlowData) {
 
     }
 
@@ -42,38 +42,38 @@ public abstract class AbstractHtmlParsePipeline<T> extends AbstractProcessFlow i
     public CrawlerEnum.ComponentType getComponentType() {
         return CrawlerEnum.ComponentType.PIPELINE;
     }
-
-    /**
-     * 这里是传入的处理好的对象，对结构数据进行清洗和存储。是一个入口。
-     *
-     * @param resultItems 保存了抽取的结果，它是一个 map 结构。
-     * @param task
-     */
-    @Override
-    public void process(ResultItems resultItems, Task task) {
-        long currentTimeMillis = System.currentTimeMillis();
-        String url = resultItems.getRequest().getUrl();
-        String documentType = crawlerHelper.getDocumentType(resultItems.getRequest());
-        String handelType = crawlerHelper.getHandelType(resultItems.getRequest());
-        log.info("开始解析抽取后的数据，url：{}，handelType：{}", url, handelType);
-        if (!CrawlerEnum.DocumentType.PAGE.name().equals(documentType)) {
-            log.info("不符合文档类型,url：{}，documentType：{}，handelType：{}", url, documentType, handelType);
-            return;
-        }
-        ParseItem parseItem = crawlerHelper.getParseItem(resultItems.getRequest());
-        if (null != parseItem && StringUtils.isNotEmpty(url)) {
-            Map<String, Object> itemsAll = resultItems.getAll();
-            // 前置参数处理 ~ 评论处理。
-            preParameterHandle(itemsAll);
-            if (url.equals(parseItem.getInitialUrl())) {
-                // 通过反射进行设置属性。
-                ReflectUtils.setProperties(parseItem, itemsAll, true);
-                parseItem.setHandelType(crawlerHelper.getHandelType(resultItems.getRequest()));
-                handleHtmlData((T) parseItem);
-            }
-        }
-        log.info("解析结束，url：{}，handelType：{}，耗时：{}", url, handelType, System.currentTimeMillis() - currentTimeMillis);
-    }
+//
+//    /**
+//     * 这里是传入的处理好的对象，对结构数据进行清洗和存储。是一个入口。
+//     *
+//     * @param resultItems 保存了抽取的结果，它是一个 map 结构。
+//     * @param task
+//     */
+//    @Override
+//    public void process(ResultItems resultItems, Task task) {
+//        long currentTimeMillis = System.currentTimeMillis();
+//        String url = resultItems.getRequest().getUrl();
+//        String documentType = crawlerHelper.getDocumentType(resultItems.getRequest());
+//        String handleType = crawlerHelper.getHandleType(resultItems.getRequest());
+//        log.info("开始解析抽取后的数据，url：{}，handleType：{}", url, handleType);
+//        if (!CrawlerEnum.DocumentType.PAGE.name().equals(documentType)) {
+//            log.info("不符合文档类型,url：{}，documentType：{}，handleType：{}", url, documentType, handleType);
+//            return;
+//        }
+//        ParseItem parseItem = crawlerHelper.getParseItem(resultItems.getRequest());
+//        if (null != parseItem && StringUtils.isNotEmpty(url)) {
+//            Map<String, Object> itemsAll = resultItems.getAll();
+//            // 前置参数处理 ~ 评论处理。
+//            preParameterHandle(itemsAll);
+//            if (url.equals(parseItem.getInitialUrl())) {
+//                // 通过反射进行设置属性。
+//                ReflectUtils.setProperties(parseItem, itemsAll, true);
+//                parseItem.sethandleType(crawlerHelper.getHandleType(resultItems.getRequest()));
+//                handleHtmlData((T) parseItem);
+//            }
+//        }
+//        log.info("解析结束，url：{}，handleType：{}，耗时：{}", url, handleType, System.currentTimeMillis() - currentTimeMillis);
+//    }
 
     /**
      * 前置参数处理。

@@ -2,16 +2,33 @@ package com.geek;
 
 import io.mycat.config.model.rule.RuleAlgorithm;
 import io.mycat.route.function.AbstractPartitionAlgorithm;
+import lombok.Data;
 
-public class HeiMaBurstRuleAlgorithm extends AbstractPartitionAlgorithm implements RuleAlgorithm {
+/**
+ * 使用 Maven 打 jar 包。
+ * 放入 Mycat 的 lib 目录下。
+ */
+@Data
+public class GeekBurstRuleAlgorithm extends AbstractPartitionAlgorithm implements RuleAlgorithm {
 
+    /**
+     * 单组容量。
+     */
     private Long volume;
+    /**
+     * 单组节点量。
+     */
     private Integer step;
+    /**
+     * 单组数据 mod。
+     */
     private Integer mod;
 
     /**
-     * @param columnValue 3-2  1-2
-     * @return 分片ID = （dataId/volume）* step +分表ID/mod
+     * 分片 ID = （dataId / volume）* step + 分表ID / mod
+     *
+     * @param columnValue 3-2 1-2
+     * @return
      */
     @Override
     public Integer calculate(String columnValue) {
@@ -23,18 +40,19 @@ public class HeiMaBurstRuleAlgorithm extends AbstractPartitionAlgorithm implemen
                     Long burstId = Long.valueOf(temp[1]);
                     int group = (int) (dataId / volume) * step;
                     int pos = group + (int) (burstId / mod);
-                    System.out.println("geek RULE INFO [" + columnValue + "]-[{" + pos + "}]");
+                    System.out.println("geek RULE INFO [" + columnValue + "] - [{" + pos + "}]");
                     return pos;
                 } catch (Exception e) {
-                    System.out.println("geek RULE INFO [" + columnValue + "]-[{" + e.getMessage() + "}]");
+                    System.out.println("geek RULE INFO [" + columnValue + "] - [{" + e.getMessage() + "}]");
                 }
             }
         }
-        return new Integer(0);
+        return 0;
     }
 
     @Override
     public Integer[] calculateRange(String beginValue, String endValue) {
+//        return super.calculateRange(beginValue, endValue);
         if (beginValue != null && endValue != null) {
             Integer begin = calculate(beginValue);
             Integer end = calculate(endValue);
@@ -42,27 +60,15 @@ public class HeiMaBurstRuleAlgorithm extends AbstractPartitionAlgorithm implemen
                 return new Integer[0];
             }
             if (end >= begin) {
-                int len = end - begin + 1;
-                Integer[] re = new Integer[len];
-                for (int i = 0; i < len; i++) {
+                int length = end - begin + 1;
+                Integer[] re = new Integer[length];
+                for (int i = 0; i < length; i++) {
                     re[i] = begin + i;
                 }
                 return re;
             }
         }
         return new Integer[0];
-    }
-
-    public void setVolume(Long volume) {
-        this.volume = volume;
-    }
-
-    public void setStep(Integer step) {
-        this.step = step;
-    }
-
-    public void setMod(Integer mod) {
-        this.mod = mod;
     }
 
 }

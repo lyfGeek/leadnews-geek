@@ -20,7 +20,7 @@ public class ProxyIpUtils {
     private static final String reqUrl = resourceBundle.getString("proxy.validate.url");
 
     public static void validateProxyIp(ProxyValidate proxyValidate) {
-        log.info("开始校验代理 IP:" + proxyValidate.getHost() + ":" + proxyValidate.getPort());
+        log.info("开始校验代理 IP。" + proxyValidate.getHost() + ":" + proxyValidate.getPort());
         long currentTime = System.currentTimeMillis();
         String errorMessage = null;
         int resultCode = 404;
@@ -33,7 +33,7 @@ public class ProxyIpUtils {
         proxyValidate.setDuration(duration);
         proxyValidate.setReturnCode(resultCode);
         proxyValidate.setError(errorMessage);
-        log.info("校验代理 IP 结束:" + proxyValidate.getHost() + ":" + proxyValidate.getPort() + "  状态码:" + proxyValidate.getReturnCode() + " 耗时 " + duration + " 秒");
+        log.info("校验代理 IP 结束。" + proxyValidate.getHost() + ":" + proxyValidate.getPort() + " 状态码：" + proxyValidate.getReturnCode() + " 耗时 " + duration + " 秒");
     }
 
     public static int processRequest(HttpHost proxy) throws IOException {

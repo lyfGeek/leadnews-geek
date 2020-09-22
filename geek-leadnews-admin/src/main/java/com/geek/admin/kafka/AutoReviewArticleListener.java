@@ -65,7 +65,8 @@ public class AutoReviewArticleListener implements IKafkaListener<String, String>
         } catch (IOException e) {
             e.printStackTrace();
             log.error("处理自动审核文章错误:[{}],{}", value, e);
-            throw new RuntimeException("WS消息处理错误", e);
+            throw new RuntimeException("WS 消息处理错误。", e);
         }
     }
+
 }

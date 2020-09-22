@@ -74,8 +74,8 @@ public class MysqlCoreConfig {
         // 数据源。
         sqlSessionFactoryBean.setDataSource(dataSource);
         // 别名。
-        sqlSessionFactoryBean.setTypeAliasesPackage(this.getAliasesPackage());
-        // mapper 接口代理的扫描。类上。
+//        sqlSessionFactoryBean.setTypeAliasesPackage(this.getAliasesPackage());
+        // mapper 接口代理的扫描。类上已写。
 //        @MapperScan(basePackages = "com.geek.model.mappers", sqlSessionFactoryRef = "mysqlCoreSessionFactory")
         // mapper 文件存储的位置。
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();

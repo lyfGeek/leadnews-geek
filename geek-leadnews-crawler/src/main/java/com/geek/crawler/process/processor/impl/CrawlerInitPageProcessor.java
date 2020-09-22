@@ -16,15 +16,15 @@ public class CrawlerInitPageProcessor extends AbstractCrawlerPageProcessor {
     private CrawlerConfigProperty crawlerConfigProperty;
 
     @Override
-    public void handelPage(Page page) {
+    public void handlePage(Page page) {
         String initXpath = crawlerConfigProperty.getInitCrawlerXpath();
-        List<String> helpUrl = page.getHtml().xpath(initXpath).links().all();
-        addSpiderRequest(helpUrl, page.getRequest(), CrawlerEnum.DocumentType.HELP);
+        List<String> helpUrlList = page.getHtml().xpath(initXpath).links().all();
+        addSpiderRequest(helpUrlList, page.getRequest(), CrawlerEnum.DocumentType.HELP);
     }
 
     @Override
-    public boolean isNeedHandelType(String handelType) {
-        return CrawlerEnum.HandelType.FORWARD.name().equals(handelType);
+    public boolean isNeedHandleType(String handleType) {
+        return CrawlerEnum.HandleType.FORWARD.name().equals(handleType);
     }
 
     @Override

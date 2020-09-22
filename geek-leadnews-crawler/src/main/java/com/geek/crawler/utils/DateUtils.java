@@ -16,7 +16,6 @@ public class DateUtils {
     // 2019年07月09日 14:00:32
     public static String DATE_TIME_FORMAT_CHINESE = "yyyy年M月d日 HH:mm:ss";
 
-
     /**
      * 获取当前日期。
      *
@@ -325,7 +324,6 @@ public class DateUtils {
      * @return
      */
     public static int calcAge(Date birthday, Date calcDate) {
-
         int cYear = DateUtils.getYearOfDate(calcDate);
         int cMonth = DateUtils.getMonthOfDate(calcDate);
         int cDay = DateUtils.getDayOfDate(calcDate);

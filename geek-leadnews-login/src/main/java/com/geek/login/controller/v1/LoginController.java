@@ -17,9 +17,16 @@ public class LoginController implements ILoginControllerApi {
     @Autowired
     private IApUserLoginService apUserLoginService;
 
+    /**
+     * 登录。
+     *
+     * @param user
+     * @return
+     */
     @Override
     @PostMapping("/login_auth")
     public ResponseResult login(@RequestBody ApUser user) {
         return apUserLoginService.loginAuth(user);
     }
+
 }

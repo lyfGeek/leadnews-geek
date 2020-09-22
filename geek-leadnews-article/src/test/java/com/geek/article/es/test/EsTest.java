@@ -40,9 +40,9 @@ public class EsTest {
         dto.setSize(50);
         dto.setTag("__all__");
         List<ApArticle> apArticles = apArticleMapper.loadArticleListByLocation(dto, null);
+        // 批量。
         for (ApArticle apArticle : apArticles) {
             ApArticleContent apArticleContent = apArticleContentMapper.selectByArticleId(apArticle.getId());
-
             EsIndexEntity esIndexEntity = new EsIndexEntity();
             esIndexEntity.setChannelId(new Long(apArticle.getChannelId()));
             esIndexEntity.setId(apArticle.getId().longValue());
@@ -57,7 +57,7 @@ public class EsTest {
             Index index = builder.index(ESIndexConstants.ARTICLE_INDEX).type(ESIndexConstants.DEFAULT_DOC).build();
             JestResult result = jestClient.execute(index);
             if (result != null && !result.isSucceeded()) {
-                throw new RuntimeException(result.getErrorMessage() + "插入更新索引失败!");
+                throw new RuntimeException(result.getErrorMessage() + "插入更新索引失败。");
             }
         }
     }

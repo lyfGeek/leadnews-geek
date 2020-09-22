@@ -19,6 +19,8 @@ public class SeleniumClientTest {
     public void test() {
         CrawlerHtml crawlerHtml = seleniumClient.getCrawlerHtml("http://www.baidu.com", null, null);
         System.out.println(crawlerHtml.getHtml());
+        System.out.println("crawlerHtml = " + crawlerHtml);
+        System.out.println("seleniumClient = " + seleniumClient);
     }
 
 }

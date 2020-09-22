@@ -92,9 +92,9 @@ public class AppUserRelationServiceImpl implements IAppUserRelationService {
         if (apUser == null) {
             return ResponseResult.errorResult(AppHttpCodeEnum.DATA_NOT_EXIST, "关注用户不存在");
         }
-        ApUserFollow apUserFollow = apUserFollowMapper.selectByFollowId(BurstUtils.groudOne(user.getId()), user.getId(), followId);
+        ApUserFollow apUserFollow = apUserFollowMapper.selectByFollowId(BurstUtils.groundOne(user.getId()), user.getId(), followId);
         if (apUserFollow == null) {
-            ApUserFan apUserFan = apUserFanMapper.selectByFansId(BurstUtils.groudOne(followId), followId, user.getId());
+            ApUserFan apUserFan = apUserFanMapper.selectByFansId(BurstUtils.groundOne(followId), followId, user.getId());
             if (apUserFan == null) {
                 apUserFan = new ApUserFan();
                 apUserFan.setId(sequences.sequenceApUserFan());
@@ -139,15 +139,15 @@ public class AppUserRelationServiceImpl implements IAppUserRelationService {
      * @return
      */
     private ResponseResult followCancelByUserId(ApUser user, Integer followId) {
-        ApUserFollow apUserFollow = apUserFollowMapper.selectByFollowId(BurstUtils.groudOne(user.getId()), user.getId(), followId);
+        ApUserFollow apUserFollow = apUserFollowMapper.selectByFollowId(BurstUtils.groundOne(user.getId()), user.getId(), followId);
         if (apUserFollow == null) {
             return ResponseResult.errorResult(AppHttpCodeEnum.DATA_NOT_EXIST, "未关注");
         } else {
-            ApUserFan apUserFan = apUserFanMapper.selectByFansId(BurstUtils.groudOne(followId), followId, user.getId());
+            ApUserFan apUserFan = apUserFanMapper.selectByFansId(BurstUtils.groundOne(followId), followId, user.getId());
             if (apUserFan != null) {
-                apUserFanMapper.deleteByFansId(BurstUtils.groudOne(followId), followId, user.getId());
+                apUserFanMapper.deleteByFansId(BurstUtils.groundOne(followId), followId, user.getId());
             }
-            int count = apUserFollowMapper.deleteByFollowId(BurstUtils.groudOne(user.getId()), user.getId(), followId);
+            int count = apUserFollowMapper.deleteByFollowId(BurstUtils.groundOne(user.getId()), user.getId(), followId);
             return ResponseResult.okResult(count);
         }
     }

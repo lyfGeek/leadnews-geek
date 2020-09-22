@@ -42,7 +42,7 @@ public class CrawlerIpPoolServiceImpl implements ICrawlerIpPoolService {
     }
 
     @Override
-    public List<ClIpPool> queryAvailabelList(ClIpPool clIpPool) {
+    public List<ClIpPool> queryAvailableList(ClIpPool clIpPool) {
         return clIpPoolMapper.selectAvailableList(clIpPool);
     }
 
@@ -56,11 +56,11 @@ public class CrawlerIpPoolServiceImpl implements ICrawlerIpPoolService {
         ClIpPool clIpPool = new ClIpPool();
         clIpPool.setIp(proxy.getHost());
         clIpPool.setPort(proxy.getPort());
-        clIpPool.setEnable(true);
+        clIpPool.setIsEnable(true);
         List<ClIpPool> clIpPools = clIpPoolMapper.selectList(clIpPool);
         if (null != clIpPools && !clIpPools.isEmpty()) {
             for (ClIpPool ipPool : clIpPools) {
-                ipPool.setEnable(false);
+                ipPool.setIsEnable(false);
                 ipPool.setError(errorMsg);
                 clIpPoolMapper.updateByPrimaryKey(ipPool);
             }

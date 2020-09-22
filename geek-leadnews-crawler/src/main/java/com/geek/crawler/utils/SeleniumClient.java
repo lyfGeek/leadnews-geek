@@ -98,7 +98,7 @@ public class SeleniumClient {
      * @param proxy          处理的代理请求。
      * @param chromeCallback 执行完成的回调。
      */
-    private void handel(String url, Proxy proxy, ChromeCallback chromeCallback) {
+    private void handle(String url, Proxy proxy, ChromeCallback chromeCallback) {
         SeleniumDriver seleniumDriver = null;
         if (StringUtils.isNotEmpty(url) && null != chromeCallback) {
             try {
@@ -122,7 +122,7 @@ public class SeleniumClient {
      * @return
      */
     public CrawlerHtml getCrawlerHtml(String url, CrawlerProxy crawlerProxy, String cookieName) {
-        log.info("Selenium 开始抓取Html数据，url：{}，cookieName：{}，proxy：{}", url, cookieName, crawlerProxy);
+        log.info("Selenium 开始抓取 Html 数据，url：{}，cookieName：{}，proxy：{}", url, cookieName, crawlerProxy);
         CrawlerHtml crawlerHtml = new CrawlerHtml(url);
         crawlerHtml.setProxy(crawlerProxy);
         Proxy proxy = null;
@@ -130,13 +130,13 @@ public class SeleniumClient {
             proxy = CrawlerProxyFactory.getSeleniumProxy(crawlerProxy);
         }
 
-        handel(url, proxy, driver -> {
+        handle(url, proxy, driver -> {
             driver.get(url);
             List<CrawlerCookie> crawlerCookieList = delayed(driver, cookieName);
             crawlerHtml.setCrawlerCookieList(crawlerCookieList);
             crawlerHtml.setHtml(driver.getPageSource());
         });
-        log.info("Selenium 抓取Html数据结束，url：{}，cookieName：{}，cookieValue：{}，proxy：{}", url, cookieName, crawlerHtml.getCrawlerCookieList(), crawlerProxy);
+        log.info("Selenium 抓取 Html 数据结束，url：{}，cookieName：{}，cookieValue：{}，proxy：{}", url, cookieName, crawlerHtml.getCrawlerCookieList(), crawlerProxy);
         return crawlerHtml;
     }
 

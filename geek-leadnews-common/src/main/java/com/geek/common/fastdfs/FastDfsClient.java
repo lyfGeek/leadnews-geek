@@ -15,7 +15,7 @@ import java.io.File;
 public class FastDfsClient {
 
     @Autowired
-    FastFileStorageClient storageClient;
+    private FastFileStorageClient storageClient;
 
     /**
      * 上传文件方法。

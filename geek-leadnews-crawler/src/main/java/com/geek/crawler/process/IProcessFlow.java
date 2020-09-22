@@ -4,12 +4,13 @@ import com.geek.crawler.process.entity.ProcessFlowData;
 import com.geek.model.crawler.enums.CrawlerEnum;
 
 public interface IProcessFlow {
+
     /**
      * 处理主业务。
      *
      * @param processFlowData
      */
-    void handel(ProcessFlowData processFlowData);
+    void handle(ProcessFlowData processFlowData);
 
     /**
      * 获取抓取类型。

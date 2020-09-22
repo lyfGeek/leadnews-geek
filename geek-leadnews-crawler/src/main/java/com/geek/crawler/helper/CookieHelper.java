@@ -14,10 +14,10 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * CookieHelper 用于管理爬取过程中使用对应代理Cookie的管理。
+ * CookieHelper 用于管理爬取过程中使用对应代理 Cookie 的管理。
  * CSDN 网站的关键 cookie 与 IP 地址做了绑定，
- * 如果用非本机的IP访问就会被拦截所以要管理各种代理的 cookie，
- * 并且在cookie失效后进行自动更新。
+ * 如果用非本机的 IP 访问就会被拦截。
+ * 所以要管理各种代理的 cookie，并且在 cookie 失效后进行自动更新。
  */
 public class CookieHelper {
 
@@ -144,7 +144,6 @@ public class CookieHelper {
             return crawlerCookieList;
         }
     }
-
 
     /**
      * 获取代理 Cookie。

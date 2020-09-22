@@ -27,12 +27,22 @@
     </select>
 
     <insert id="saveShowBehavior">
-        -- /*!mycat:catlet=io.mycat.route.sequence.BatchInsertSequence */
-        insert into ap_show_behavior (id, entry_id, article_id, is_click, show_time, created_time)
+        /*!mycat:catlet=io.mycat.route.sequence.BatchInsertSequence */
+        insert into ap_show_behavior (entry_id, article_id, is_click, show_time, created_time)
         values
         <foreach item="item" collection="articleIds" separator=", ">
-            (#{entryId}, #{entryId}, #{item}, 0, now(), now())
+            (#{entryId}, #{item}, 0, now(), now())
         </foreach>
     </insert>
+    <!--
+        <insert id="saveShowBehavior">
+    &#45;&#45;         /*!mycat:catlet=io.mycat.route.sequence.BatchInsertSequence */
+            insert into ap_show_behavior (id, entry_id, article_id, is_click, show_time, created_time)
+            values
+            <foreach item="item" collection="articleIds" separator=", ">
+                (#{entryId}, #{entryId}, #{item}, 0, now(), now())
+            </foreach>
+        </insert>
+    -->
 
 </mapper>

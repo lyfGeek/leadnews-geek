@@ -3,6 +3,9 @@ package com.geek.model.crawler.core.delayed;
 import com.geek.model.crawler.core.callback.IConcurrentCallBack;
 import com.geek.model.crawler.core.callback.IDelayedCallBack;
 
+/**
+ * 延时调用工具类。
+ */
 public class DelayedUtils {
 
     public static void delayed(long delayedTime) {
@@ -27,14 +30,14 @@ public class DelayedUtils {
         Object obj = null;
         while (true) {
             try {
-                Thread.sleep(sleepTime);
+                Thread.sleep(sleepTime);// 延时秒数。
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             long duration = System.currentTimeMillis() - currentTime;
             boolean isExist = callBack.isExist();
             obj = callBack.callBack(duration);
-            if (isExist) {
+            if (isExist) {// cookie 存在就 break。
                 flag = true;
             } else if (duration > timeOut) {
                 flag = true;
@@ -58,7 +61,7 @@ public class DelayedUtils {
         return new IConcurrentCallBack() {
             public boolean filter() {
                 boolean flag = false;
-                //数据初始化
+                // 数据初始化。
                 long duration = System.currentTimeMillis() - concurrentEntity.getCurrentTime();
                 if (duration > time) {
                     concurrentEntity.setAvailable(true);
@@ -67,7 +70,7 @@ public class DelayedUtils {
                 }
                 long callCount = concurrentEntity.getCallCount();
                 concurrentEntity.setCallCount(++callCount);
-                if (callCount <= 1 && concurrentEntity.isAvailable()) {
+                if (callCount <= 1 && concurrentEntity.isAvailable()) {// 多个并发，只取一个。
                     flag = true;
                     concurrentEntity.setAvailable(false);
                 }
@@ -127,4 +130,5 @@ public class DelayedUtils {
             this.callCount = callCount;
         }
     }
+
 }

@@ -1,6 +1,5 @@
 package com.geek.admin.controller.v1;
 
-
 import com.geek.admin.apis.ILoginControllerApi;
 import com.geek.admin.service.IUserLoginService;
 import com.geek.model.admin.pojos.AdUser;
@@ -23,4 +22,5 @@ public class LoginController implements ILoginControllerApi {
     public ResponseResult login(@RequestBody AdUser user) {
         return userLoginService.login(user);
     }
+
 }

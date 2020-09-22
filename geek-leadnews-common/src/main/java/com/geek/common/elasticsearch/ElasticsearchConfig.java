@@ -9,6 +9,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
+/**
+ * 要使用 ta，直接在模块中
+ * `@Configuration
+ * `@ComponentScan("com.geek.common.elasticsearch")
+ * `public class EsConfig {
+ * `}
+ */
 @Data
 @Configuration
 @ConfigurationProperties(prefix = "spring.elasticsearch.jest")

@@ -9,9 +9,9 @@ public interface IAdLabelService {
     String getLabelIds(String labels);
 
     /**
-     * @param labels 标签 id。多个以逗号分隔。
-     * @return 频道 id。找不到频道，默认给 0，0 是未分类。
+     * @param labelIds 标签 id。多个以逗号分隔。
+     * @return 频道 id。找不到频道，默认给 0 ~ 未分类。
      */
-    Integer getAdChannelByLabelIds(String labels);
+    Integer getAdChannelByLabelIds(String labelIds);
 
 }

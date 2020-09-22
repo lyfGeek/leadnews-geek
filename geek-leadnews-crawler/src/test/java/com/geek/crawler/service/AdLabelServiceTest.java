@@ -24,4 +24,5 @@ public class AdLabelServiceTest {
         Integer adChannelByLabelIds = adLabelService.getAdChannelByLabelIds("1,2");
         System.out.println(adChannelByLabelIds);
     }
+
 }

@@ -10,7 +10,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import javax.annotation.Resource;
 
 @SpringBootTest(classes = ArticleJarApplication.class)
 @RunWith(SpringRunner.class)
@@ -18,6 +21,9 @@ public class ArticleTest {
 
     @Autowired
     private IAppArticleService appArticleService;
+
+    @Resource
+    private RedisTemplate redisTemplate;
 
     @Test
     public void testArticle() {
@@ -32,6 +38,13 @@ public class ArticleTest {
 //        ResponseResult responseResult = appArticleService.load(null, ArticleConstant.LOADTYPE_LOAD_MORE);
 //        System.out.println("responseResult = " + responseResult);
 //        System.out.println(responseResult.getData());
+    }
+
+    @Test
+    public void testRedis() {
+        redisTemplate.opsForValue().set("name", "geek");
+        Object name = redisTemplate.opsForValue().get("name");
+        System.out.println("name = " + name);
     }
 
 }

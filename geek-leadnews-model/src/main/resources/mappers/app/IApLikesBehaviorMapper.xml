@@ -23,8 +23,8 @@
     </select>
 
     <insert id="insert" parameterType="com.geek.model.behavior.pojos.ApLikesBehavior">
-    insert into ap_likes_behavior (id, behavior_entry_id, entry_id, type, operation, created_time, burst)
-    values (#{id}, #{behaviorEntryId}, #{entryId}, #{type}, #{operation}, #{createdTime}, #{burst})
+        insert into ap_likes_behavior (id, behavior_entry_id, entry_id, type, operation, created_time, burst)
+        values (#{id}, #{behaviorEntryId}, #{entryId}, #{type}, #{operation}, #{createdTime}, #{burst})
     </insert>
 
 </mapper>

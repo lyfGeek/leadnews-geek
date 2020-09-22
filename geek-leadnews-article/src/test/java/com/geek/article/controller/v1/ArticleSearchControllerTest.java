@@ -25,9 +25,9 @@ import java.util.List;
 public class ArticleSearchControllerTest {
 
     @Autowired
-    MockMvc mvc;
+    private MockMvc mockMvc;
     @Autowired
-    ObjectMapper mapper;
+    private ObjectMapper objectMapper;
 
     @Test
     public void testLoadArticleInfo() throws Exception {
@@ -37,8 +37,8 @@ public class ArticleSearchControllerTest {
         MockHttpServletRequestBuilder builder =
                 MockMvcRequestBuilders.post("/api/v1/article/search/load_search_history")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(mapper.writeValueAsBytes(dto));
-        mvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print());
+                        .content(objectMapper.writeValueAsBytes(dto));
+        mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print());
     }
 
     @Test
@@ -53,8 +53,8 @@ public class ArticleSearchControllerTest {
         MockHttpServletRequestBuilder builder =
                 MockMvcRequestBuilders.post("/api/v1/article/search/del_search")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(mapper.writeValueAsBytes(dto));
-        mvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print());
+                        .content(objectMapper.writeValueAsBytes(dto));
+        mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print());
     }
 
     @Test
@@ -64,31 +64,31 @@ public class ArticleSearchControllerTest {
         MockHttpServletRequestBuilder builder =
                 MockMvcRequestBuilders.post("/api/v1/article/search/clear_search")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(mapper.writeValueAsBytes(dto));
-        mvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print());
+                        .content(objectMapper.writeValueAsBytes(dto));
+        mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print());
     }
 
     @Test
     public void testHotkeywords() throws Exception {
-        UserSearchDto dto = new UserSearchDto();
+        UserSearchDto userSearchDto = new UserSearchDto();
 //        dto.setHotDate("2019-07-24");
         MockHttpServletRequestBuilder builder =
                 MockMvcRequestBuilders.post("/api/v1/article/search/load_hot_keywords")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(mapper.writeValueAsBytes(dto));
-        mvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print());
+                        .content(objectMapper.writeValueAsBytes(userSearchDto));
+        mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print());
     }
 
     @Test
-    public void testSearchassociate() throws Exception {
+    public void testSearchAssociate() throws Exception {
         UserSearchDto dto = new UserSearchDto();
         dto.setPageSize(20);
         dto.setSearchWords("黑马");
         MockHttpServletRequestBuilder builder =
                 MockMvcRequestBuilders.post("/api/v1/article/search/associate_search")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(mapper.writeValueAsBytes(dto));
-        mvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print());
+                        .content(objectMapper.writeValueAsBytes(dto));
+        mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print());
     }
 
     @Test
@@ -97,12 +97,12 @@ public class ArticleSearchControllerTest {
         dto.setEquipmentId(1);
         dto.setPageNum(1);
         dto.setPageSize(10);
-        dto.setSearchWords("面试");
+        dto.setSearchWords("特斯拉");
         MockHttpServletRequestBuilder builder =
                 MockMvcRequestBuilders.post("/api/v1/article/search/article_search")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(mapper.writeValueAsBytes(dto));
-        mvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print());
+                        .content(objectMapper.writeValueAsBytes(dto));
+        mockMvc.perform(builder).andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print());
     }
 
 }

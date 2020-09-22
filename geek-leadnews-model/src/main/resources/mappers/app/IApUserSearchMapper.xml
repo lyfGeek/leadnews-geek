@@ -24,10 +24,11 @@
         limit #{limit}
     </select>
 
+    <!--    逻辑删除。-->
     <update id="delUserSearch">
         update ap_user_search
         set status = 0
-        where entry_id =#{entryId} and id in (
+        where entry_id = #{entryId} and id in (
         <foreach item="item" collection="hisIds" separator=",">
             #{item}
         </foreach>

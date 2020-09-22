@@ -14,7 +14,6 @@ public class CrawlerProxyFactory {
      */
     private static final String NOT_USE_PROXY = "NOT_USE_PROXY";
 
-
     /**
      * 代理对象 httpclient 的代理。
      *

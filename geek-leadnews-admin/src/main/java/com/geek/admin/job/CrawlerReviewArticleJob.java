@@ -36,6 +36,7 @@ public class CrawlerReviewArticleJob extends AbstractJob {
 
     @Override
     public String descTrigger() {
-        return "每天晚上23:30分执行";
+        return "每天晚上 23:30 分执行";
     }
+
 }

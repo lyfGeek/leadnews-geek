@@ -11,11 +11,11 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
- * KafkaStream自动处理包装类
+ * KafkaStream 自动处理包装类。
  */
 public class KafkaStreamProcessor {
 
-    // 流构建器
+    // 流构建器。
     StreamsBuilder streamsBuilder;
     IKafkaStreamListener listener;
     private String type;
@@ -24,12 +24,12 @@ public class KafkaStreamProcessor {
         this.streamsBuilder = streamsBuilder;
         this.listener = kafkaStreamListener;
         this.parseType();
-        Assert.notNull(this.type, "Kafka Stream 监听器只支持kstream、ktable,当前类型是" + this.type);
+        Assert.notNull(this.type, "Kafka Stream 监听器只支持 kstream、ktable，当前类型是" + this.type);
     }
 
     /**
-     * 通过泛型类型自动注册对应类型的流处理器对象
-     * 支持KStream、KTable
+     * 通过泛型类型自动注册对应类型的流处理器对象。
+     * 支持 KStream、KTable。
      *
      * @return
      */
@@ -48,7 +48,7 @@ public class KafkaStreamProcessor {
     }
 
     /**
-     * 解析传入listener类的泛型类
+     * 解析传入 listener 类的泛型类。
      */
     private void parseType() {
         Type[] types = listener.getClass().getGenericInterfaces();

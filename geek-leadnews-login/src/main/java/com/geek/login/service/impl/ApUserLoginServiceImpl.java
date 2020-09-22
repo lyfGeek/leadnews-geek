@@ -22,6 +22,9 @@ public class ApUserLoginServiceImpl implements IApUserLoginService {
     @Autowired
     private IValidateService validateService;
 
+    /**
+     * 根据用户名和密码登录验证。
+     */
     @Override
     public ResponseResult loginAuth(ApUser user) {
         // 验证参数。
@@ -35,7 +38,7 @@ public class ApUserLoginServiceImpl implements IApUserLoginService {
         if (!user.getPassword().equals(apUser.getPassword())) {
             return ResponseResult.errorResult(AppHttpCodeEnum.LOGIN_PASSWORD_ERROR);
         }
-        apUser.setPassword("");
+        apUser.setPassword("");// 不返回密码信息。
         Map<String, Object> map = new HashMap<>();
         map.put("token", AppJwtUtil.getToken(apUser));
         map.put("user", apUser);

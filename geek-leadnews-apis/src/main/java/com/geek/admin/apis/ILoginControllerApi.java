@@ -1,16 +1,16 @@
 package com.geek.admin.apis;
 
-import com.geek.model.admin.pojos.AdUser;
 import com.geek.model.common.dtos.ResponseResult;
+import com.geek.model.user.pojos.ApUser;
 
 public interface ILoginControllerApi {
 
     /**
      * 登录。
      *
-     * @param user
+     * @param apUser
      * @return
      */
-    ResponseResult login(AdUser user);
+    ResponseResult login(ApUser apUser);
 
 }

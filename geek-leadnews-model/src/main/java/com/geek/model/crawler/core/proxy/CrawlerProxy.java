@@ -25,26 +25,4 @@ public class CrawlerProxy implements Serializable {
         return this.host + ":" + port;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CrawlerProxy that = (CrawlerProxy) o;
-        return host.equals(that.host) &&
-                port.equals(that.port);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(host, port);
-    }
-
-    @Override
-    public String toString() {
-        return "CrawlerProxy{" +
-                "host='" + host + '\'' +
-                ", port=" + port +
-                '}';
-    }
-
 }

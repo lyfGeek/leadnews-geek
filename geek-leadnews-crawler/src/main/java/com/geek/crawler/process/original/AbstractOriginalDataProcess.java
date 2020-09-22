@@ -20,14 +20,14 @@ public abstract class AbstractOriginalDataProcess extends AbstractProcessFlow {
      * @param processFlowData
      */
     @Override
-    public void handel(ProcessFlowData processFlowData) {
+    public void handle(ProcessFlowData processFlowData) {
         // 初始化 URL 数据列表。
         List<ParseItem> initialDataList = processFlowData.getParseItemList();
         if (!(null != initialDataList && !initialDataList.isEmpty())) {
             // 解析初始 URL 获取需要抓取的 URL 链接。
-            log.info("获取初始化URL列表");
+            log.info("获取初始化 URL 列表。");
             initialDataList = parseOriginalRequestData(processFlowData);
-            log.info("初始化URL列表完成，有效URL数量：{}", initialDataList.size());
+            log.info("初始化 URL 列表完成，有效 URL 数量：{}", initialDataList.size());
             // 初始化方法的一些处理，这里面是一个空方法，没有任何实现。
             initialDataListHandel(initialDataList);
         }
@@ -66,7 +66,7 @@ public abstract class AbstractOriginalDataProcess extends AbstractProcessFlow {
     public void initialDataListHandel(List<ParseItem> initialDataList) {
     }
 
-    @Override
+    //    @Override
     public CrawlerEnum.ComponentType getComponentType() {
         return CrawlerEnum.ComponentType.NORMAL;
     }

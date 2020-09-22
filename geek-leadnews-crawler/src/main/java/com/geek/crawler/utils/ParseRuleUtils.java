@@ -19,14 +19,14 @@ public class ParseRuleUtils {
      * @return
      */
     public static List<ParseRule> parseHtmlByRuleList(Html html, List<ParseRule> parseRuleList) {
-        List<ParseRule> effectiveGrapRuleList = null;
+        List<ParseRule> effectiveGrabRuleList = null;
         if (null != html && null != parseRuleList && !parseRuleList.isEmpty()) {
             // 对内容的解析。
             List<ParseRule> ruleList = parseContent(html, parseRuleList);
             // 对数据有效性的校验。
-            effectiveGrapRuleList = getEffectiveParseRuleList(ruleList);
+            effectiveGrabRuleList = getEffectiveParseRuleList(ruleList);
         }
-        return effectiveGrapRuleList;
+        return effectiveGrabRuleList;
     }
 
     /**

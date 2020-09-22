@@ -20,11 +20,11 @@ public class ArticleHomeController implements IArticleHomeControllerApi {
     /**
      * 加载文章首页。
      *
-     * @param articleHomeDto
+     * @param aticleHomeDto
      * @return
      */
     @Override
-    @GetMapping("/load")
+    @RequestMapping("/load")
     public ResponseResult load(ArticleHomeDto articleHomeDto) {
         return appArticleService.load(articleHomeDto, ArticleConstant.LOADTYPE_LOAD_MORE);
     }

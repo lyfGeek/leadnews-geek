@@ -51,7 +51,7 @@
         <lang3.version>3.5</lang3.version>
         <pagehelper.version>1.2.3</pagehelper.version>
         <jsoup.version>1.13.1</jsoup.version>
-        <jwt.version>1.0.10.RELEASE</jwt.version>
+        <jwt.version>0.9.1</jwt.version>
         <fastjson.version>1.2.58</fastjson.version>
         <fastjson.dataformat.version>2.11.1</fastjson.dataformat.version>
         <spring.jwt.version>1.0.9.RELEASE</spring.jwt.version>
@@ -386,7 +386,7 @@
                     <generateGitPropertiesFile>true</generateGitPropertiesFile>
                 </configuration>
             </plugin>-->
-            <!-- PMD插件 -->
+            <!-- PMD 插件。-->
             <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
@@ -450,6 +450,13 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>config</directory>
                 <includes>
                     <include>**/*.*</include>
                 </includes>

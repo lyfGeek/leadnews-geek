@@ -1,6 +1,7 @@
 package com.geek.crawler.process.entity;
 
 import com.geek.model.crawler.core.parse.ParseRule;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,8 +11,7 @@ import java.util.List;
 /**
  * 爬虫配置相关属性。
  */
-@Setter
-@Getter
+@Data
 public class CrawlerConfigProperty implements Serializable {
 
     /**
@@ -27,7 +27,7 @@ public class CrawlerConfigProperty implements Serializable {
      */
     private String helpCrawlerXpath;
     /**
-     * 是否开启帮助页面分页抓取。
+     * 帮助页面分页抓取。
      */
     private Integer crawlerHelpNextPagingSize;
     /**

@@ -8,26 +8,26 @@ public interface IApArticleSearchService {
     /**
      * 查询搜索历史。
      *
-     * @param dto
+     * @param userSearchDto
      * @return
      */
-    ResponseResult findUserSearch(UserSearchDto dto);
+    ResponseResult findUserSearch(UserSearchDto userSearchDto);
 
     /**
      * 删除搜索历史。
      *
-     * @param dto
+     * @param userSearchDto
      * @return
      */
-    ResponseResult delUserSearch(UserSearchDto dto);
+    ResponseResult delUserSearch(UserSearchDto userSearchDto);
 
     /**
      * 清空搜索历史记录。
      *
-     * @param dto
+     * @param userSearchDto
      * @return
      */
-    ResponseResult clearUserSearch(UserSearchDto dto);
+    ResponseResult clearUserSearch(UserSearchDto userSearchDto);
 
     /**
      * 今日热词。
@@ -40,10 +40,10 @@ public interface IApArticleSearchService {
     /**
      * 模糊查询联想词。
      *
-     * @param dto
+     * @param userSearchDto
      * @return
      */
-    ResponseResult searchAssociate(UserSearchDto dto);
+    ResponseResult searchAssociate(UserSearchDto userSearchDto);
 
     /**
      * es 文章分页查询。
@@ -51,7 +51,7 @@ public interface IApArticleSearchService {
      * @param dto
      * @return
      */
-    ResponseResult esArticleSearch(UserSearchDto dto);
+    ResponseResult esArticleSearch(UserSearchDto userSearchDto);
 
     /**
      * 保存搜索记录。
@@ -65,9 +65,9 @@ public interface IApArticleSearchService {
     /**
      * 搜索联想词 v2。
      *
-     * @param dto
+     * @param userSearchDto
      * @return
      */
-    ResponseResult searchAssociationV2(UserSearchDto dto);
+    ResponseResult searchAssociationV2(UserSearchDto userSearchDto);
 
 }
