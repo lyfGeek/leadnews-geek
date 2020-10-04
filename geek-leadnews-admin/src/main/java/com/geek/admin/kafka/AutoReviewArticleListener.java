@@ -47,13 +47,13 @@ public class AutoReviewArticleListener implements IKafkaListener<String, String>
                 if (type == SubmitArticleAuto.ArticleType.WEMEDIA) {
                     Integer articleId = message.getData().getArticleId();
                     if (articleId != null) {
-                        //审核文章信息
+                        // 审核文章信息。
                         reviewMediaArticleService.autoReviewArticleByMedia(articleId);
                     }
                 } else if (type == SubmitArticleAuto.ArticleType.CRAWLER) {
                     Integer articleId = message.getData().getArticleId();
                     if (articleId != null) {
-                        //审核爬虫文章信息
+                        // 审核爬虫文章信息。
                         try {
                             reviewCrawlerArticleService.autoReviewArticleByCrawler(articleId);
                         } catch (Exception e) {
@@ -64,7 +64,7 @@ public class AutoReviewArticleListener implements IKafkaListener<String, String>
             }
         } catch (IOException e) {
             e.printStackTrace();
-            log.error("处理自动审核文章错误:[{}],{}", value, e);
+            log.error("处理自动审核文章错误 ~ [{}], {}", value, e);
             throw new RuntimeException("WS 消息处理错误。", e);
         }
     }

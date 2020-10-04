@@ -25,7 +25,7 @@ public class CrawlerReviewArticleJob extends AbstractJob {
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         long currentTimeMillis = System.currentTimeMillis();
-        log.info("开始定时任务执行");
+        log.info("开始定时任务执行。");
         try {
             reviewCrawlerArticleService.autoReviewArticleByCrawler();
         } catch (Exception e) {
@@ -36,7 +36,7 @@ public class CrawlerReviewArticleJob extends AbstractJob {
 
     @Override
     public String descTrigger() {
-        return "每天晚上 23:30 分执行";
+        return "每天晚上 23:30 分执行。";
     }
 
 }

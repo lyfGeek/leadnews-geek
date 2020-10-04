@@ -16,16 +16,16 @@ public interface ICommonDao {
     @ResultType(Integer.class)
     int listCount(@Param("tableName") String tableName);
 
-    @Select("select * from ${tableName} where 1 = 1 ${where} limit #{start}, #{size} ")
+    @Select("select * from ${tableName} where 1 = 1 ${where} limit #{start}, #{size}")
 // where ==> and name = 11 and password = ddd
     @ResultType(HashMap.class)
     List<HashMap> listForWhere(@Param("tableName") String tableName, @Param("where") String where, @Param("start") int start, @Param("size") int size);
 
-    @Select("select * from ${tableName} where 1=1 ${where} ")//where ==> and name = 11  and password = ddd
+    @Select("select * from ${tableName} where 1=1 ${where} ")//where ==> and name = 11 and password = ddd
     @ResultType(Integer.class)
     int listCountForWhere(@Param("tableName") String tableName, @Param("where") String where);
 
-    @Update("update ${tableName} set ${sets} where 1 = 1 ${where}")//sets==>  name=xxx,password=xsdfd
+    @Update("update ${tableName} set ${sets} where 1 = 1 ${where}")//sets ==> name=xxx, password=xsdfd
     @ResultType(Integer.class)
     int update(@Param("tableName") String tableName, @Param("where") String where, @Param("sets") String sets);
 

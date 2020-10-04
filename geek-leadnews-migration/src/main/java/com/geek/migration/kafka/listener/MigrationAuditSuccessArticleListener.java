@@ -16,7 +16,7 @@ import java.io.IOException;
 
 @Component
 @Log4j2
-public class MigrationAuditSucessArticleListener implements IKafkaListener<String, String> {
+public class MigrationAuditSuccessArticleListener implements IKafkaListener<String, String> {
 
     @Autowired
     private KafkaTopicConfig kafkaTopicConfig;

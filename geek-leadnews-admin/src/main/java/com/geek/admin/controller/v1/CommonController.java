@@ -30,4 +30,5 @@ public class CommonController {
     public ResponseResult delete(@RequestBody CommonDto dto) {
         return commonService.delete(dto);
     }
+
 }

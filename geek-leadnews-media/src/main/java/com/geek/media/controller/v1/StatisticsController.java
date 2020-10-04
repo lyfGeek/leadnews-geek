@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class StatisticsController {
 
     @Autowired
-    IStatisticsService statisticsService;
+    private IStatisticsService statisticsService;
 
     @PostMapping("/news")
     public ResponseResult newsData(@RequestBody StatisticDto dto) {
